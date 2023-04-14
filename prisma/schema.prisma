@@ -9,3 +9,60 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Customer {
+  id         Int      @id @default(autoincrement())
+  first_name String
+  last_name  String
+  doc_user   String   @unique
+  email      String   @unique
+  phone      String   @unique
+  createdAt  DateTime @default(now())
+  books      Book[]
+}
+
+model Book {
+  id          Int              @id @default(autoincrement())
+  title       String
+  price       Decimal          @db.Decimal(9, 2)
+  company     String
+  pages       Int
+  description String
+  createdAt   DateTime         @default(now())
+  user        Customer         @relation(fields: [userId], references: [id])
+  userId      Int
+  categories  Category[]
+  deliverysystem  DeliverySystem?
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  books     Book[]
+  authors   Author[]
+}
+
+model Author {
+  id         Int      @id @default(autoincrement())
+  first_name String
+  last_name  String
+  createdAt  DateTime @default(now())
+  section    Category @relation(fields: [sectionId], references: [id])
+  sectionId  Int
+}
+
+model DeliverySystem {
+  id        Int      @id @default(autoincrement())
+  stock     Int
+  avaliable Int
+  days_rent Role     @default(THIRTY)
+  createdAt DateTime @default(now())
+  book  Book @relation(fields: [bookId], references: [id])
+  bookId  Int @unique
+}
+
+enum Role {
+  THIRTY
+  FOURTEEN
+}
