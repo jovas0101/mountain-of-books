@@ -51,9 +51,10 @@ CREATE TABLE "Author" (
 -- CreateTable
 CREATE TABLE "DeliverySystem" (
     "id" SERIAL NOT NULL,
+    "cod_book" TEXT NOT NULL,
     "stock" INTEGER NOT NULL,
-    "avaliable" INTEGER NOT NULL,
-    "days_rent" "Role" NOT NULL DEFAULT 'THIRTY',
+    "available" INTEGER NOT NULL,
+    "days_rent_permitted" "Role" NOT NULL DEFAULT 'THIRTY',
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "bookId" INTEGER NOT NULL,
 

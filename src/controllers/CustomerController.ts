@@ -19,6 +19,20 @@ export default {
     try {
       const { first_name, last_name, doc_user, email, phone } = req.body;
 
+      if (first_name === undefined || first_name.trim() === "") {
+        return res.status(500).json({
+          message:
+            "There is already a user registered with this First Name, please try again",
+        });
+      }
+
+      if (last_name === undefined || last_name.trim() === "") {
+        return res.status(500).json({
+          message:
+            "There is already a user registered with this First Name, please try again",
+        });
+      }
+
       const existingDocumentNumber = await prisma.customer.findUnique({
         where: { doc_user },
       });
@@ -52,12 +66,6 @@ export default {
         });
       }
 
-      if (existingEmail && existingDocumentNumber && existingPhone) {
-        return res.status(500).json({
-          message: "Todos os dados já estão cadastrado",
-        });
-      }
-
       const customer = await prisma.customer.create({
         data: {
           first_name,
@@ -68,7 +76,11 @@ export default {
         },
       });
 
-      return res.json({ message: "created successfully!" });
+      const idCustomer = await prisma.customer.findUnique({
+        where: customer,
+      });
+
+      return res.json({ message: "created successfully!", idCustomer});
     } catch (error) {
       res.json({ error });
     }

@@ -22,17 +22,17 @@ model Customer {
 }
 
 model Book {
-  id          Int              @id @default(autoincrement())
-  title       String
-  price       Decimal          @db.Decimal(9, 2)
-  company     String
-  pages       Int
-  description String
-  createdAt   DateTime         @default(now())
-  user        Customer         @relation(fields: [userId], references: [id])
-  userId      Int
-  categories  Category[]
-  deliverysystem  DeliverySystem?
+  id             Int             @id @default(autoincrement())
+  title          String
+  price          Decimal         @db.Decimal(9, 2)
+  company        String
+  pages          Int
+  description    String
+  createdAt      DateTime        @default(now())
+  user           Customer        @relation(fields: [userId], references: [id])
+  userId         Int
+  categories     Category[]
+  deliverysystem DeliverySystem?
 }
 
 model Category {
@@ -54,12 +54,13 @@ model Author {
 
 model DeliverySystem {
   id        Int      @id @default(autoincrement())
+  cod_book  String
   stock     Int
-  avaliable Int
-  days_rent Role     @default(THIRTY)
+  available Int
+  days_rent_permitted Role     @default(THIRTY)
   createdAt DateTime @default(now())
-  book  Book @relation(fields: [bookId], references: [id])
-  bookId  Int @unique
+  book      Book     @relation(fields: [bookId], references: [id])
+  bookId    Int      @unique
 }
 
 enum Role {
