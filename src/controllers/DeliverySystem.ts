@@ -53,7 +53,10 @@ export default {
           bookId,
         },
       });
-      return res.json({ message: "created successfully!" });
+
+     const id = deliverySystem.id;
+
+      return res.json({ message: "created successfully!", id});
     } catch (error) {
       res.json({ error });
     }

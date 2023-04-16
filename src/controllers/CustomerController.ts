@@ -12,24 +12,21 @@ interface CustomerInput {
 }
 
 export default {
-  async creatingCustomers(
-    req: Request<unknown, unknown, CustomerInput>,
-    res: Response
-  ) {
+  async creatingCustomers(req: Request<CustomerInput>, res: Response) {
     try {
       const { first_name, last_name, doc_user, email, phone } = req.body;
 
       if (first_name === undefined || first_name.trim() === "") {
         return res.status(500).json({
           message:
-            "There is already a user registered with this First Name, please try again",
+            "Unable to enter data in blanks",
         });
       }
 
       if (last_name === undefined || last_name.trim() === "") {
         return res.status(500).json({
           message:
-            "There is already a user registered with this First Name, please try again",
+            "Unable to enter data in blanks",
         });
       }
 
@@ -76,11 +73,9 @@ export default {
         },
       });
 
-      const idCustomer = await prisma.customer.findUnique({
-        where: customer,
-      });
-
-      return res.json({ message: "created successfully!", idCustomer});
+      const id = customer.id;
+      
+      return res.json({ message: "created successfully!", id});
     } catch (error) {
       res.json({ error });
     }

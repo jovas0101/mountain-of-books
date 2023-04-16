@@ -14,17 +14,9 @@ interface BookInput {
 }
 
 export default {
-  async creatingBook(req: Request<unknown, unknown, BookInput>, res: Response) {
+  async creatingBook(req: Request<BookInput>, res: Response) {
     try {
-      const {
-        title,
-        price,
-        company,
-        pages,
-        description,
-        userId,
-        minValue = 20,
-      } = req.body;
+      const { title, price, company, pages, description,userId, minValue = 20  } = req.body;
 
       if (price === undefined || price < minValue) {
         return res.status(400).json({
@@ -71,7 +63,9 @@ export default {
         },
       });
 
-      return res.json({ message: "created successfully!" });
+      const id = book.id;
+
+      return res.json({ message: "created successfully!", id});
     } catch (error) {
       return res.json({ error });
     }
