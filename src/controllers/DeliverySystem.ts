@@ -58,7 +58,7 @@ export default {
 
       return res.json({ message: "created successfully!", id});
     } catch (error) {
-      res.json({ error });
+      return res.status(500).json({ message: "Internal server error" });
     }
   },
 };
